@@ -5,7 +5,7 @@
       <v-row justify="center" class="align-center">
         <v-col cols="12" md="12">
           <v-text-field
-            label="R$"
+            label="Quantidade (R$)"
             type="number"
             focused
             v-model="real"
@@ -16,7 +16,7 @@
         </v-col>
         <v-col cols="12" md="12">
           <v-text-field
-            label="US$"
+            label="Valor do Câmbio (R$)"
             type="number"
             mask="#.##"
             :rules="[(v) => !!v || 'Item is required']"
@@ -42,7 +42,7 @@
       <v-row v-if="dolar" class="box">
         <v-col cols="12" md="12">
           <h3>Valor convertido</h3>
-          Com R$ {{ real }} é possível comprar {{ dolar }} dólares à
+          Com R$ {{ real }} é possível comprar US$ {{ dolar }} dólares à R$
           {{ valorCambio }} cada
         </v-col>
       </v-row>
@@ -73,7 +73,8 @@ export default {
         return api
           .get("USD-BRL")
           .then((response) => {
-            this.valorCambio = parseFloat(response.data.USDBRL.bid);
+            let valor = response.data.USDBRL.bid;
+            this.valorCambio = parseFloat(valor).toFixed(2);
           })
           .catch((error) => console.log(error));
       });
@@ -104,7 +105,7 @@ h1 {
   border: 1px solid #d7d7d7;
   background: #fafafa;
   padding: 20px;
-  margin: 25px;
+  margin: 5px;
   border-radius: 8px;
 }
 </style>
